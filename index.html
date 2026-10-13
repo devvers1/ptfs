@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071426">
+<meta name="description" content="AeroCalifornia PTFS — Conectando cielos, uniendo pilotos. Únete a nuestra aerolínea virtual en Pilot Training Flight Simulator.">
+<title>AeroCalifornia PTFS | Conectando cielos</title>
+<style>
+:root{--navy:#061326;--navy2:#0a1d36;--blue:#1688ff;--cyan:#65d9ff;--white:#f5f9ff;--muted:#a8b9cf;--line:rgba(180,214,255,.16)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{margin:0;background:var(--navy);color:var(--white);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button,a{-webkit-tap-highlight-color:transparent}
+.nav{position:fixed;z-index:50;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:17px clamp(18px,5vw,76px);background:rgba(5,17,33,.68);border-bottom:1px solid transparent;backdrop-filter:blur(16px);transition:.3s}
+.nav.scrolled{border-color:var(--line);background:rgba(5,17,33,.92)}
+.brand{display:flex;align-items:center;gap:11px;font-weight:850;letter-spacing:.06em;font-size:.92rem}
+.logo{width:42px;height:42px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(145deg,#2aa8ff,#0751b8);box-shadow:0 0 28px #1688ff55;flex:none}
+.logo svg{width:29px;height:29px}
+.navlinks{display:flex;align-items:center;gap:27px;font-size:.9rem;color:#c7d7eb}
+.navlinks a:not(.btn):hover{color:var(--cyan)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:13px 19px;border-radius:12px;font-weight:800;font-size:.92rem;background:linear-gradient(135deg,#1c9bff,#1764e8);color:white;box-shadow:0 8px 30px #1688ff38;transition:transform .22s,box-shadow .22s,border-color .22s}
+.btn:hover{transform:translateY(-3px);box-shadow:0 12px 34px #1688ff65}
+.btn.secondary{background:rgba(255,255,255,.055);border:1px solid var(--line);box-shadow:none}
+.menu{display:none;background:none;color:white;border:0;font-size:1.6rem}
+.hero{min-height:790px;min-height:min(850px,100svh);position:relative;display:flex;align-items:center;padding:145px clamp(22px,8vw,125px) 90px;overflow:hidden;background:radial-gradient(ellipse at 76% 42%,#0c4a7d88 0,transparent 39%),linear-gradient(120deg,#061326 12%,#09203b 63%,#07172b)}
+.hero:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,17,33,.15),rgba(5,17,33,.05)),url("https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=2000&q=85") center 48%/cover;opacity:.22;mask-image:linear-gradient(90deg,black,transparent 100%)}
+.gridglow{position:absolute;inset:0;opacity:.18;background-image:linear-gradient(rgba(109,185,255,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(109,185,255,.14) 1px,transparent 1px);background-size:70px 70px;mask-image:linear-gradient(transparent,black 30%,transparent 100%)}
+.hero-content{position:relative;z-index:3;max-width:670px;animation:rise .9s both}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;border:1px solid #69c7ff42;background:#0e37604d;border-radius:99px;padding:8px 13px;color:#a8e3ff;font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.pulse{width:7px;height:7px;background:#56e3b0;border-radius:50%;box-shadow:0 0 12px #56e3b0;animation:pulse 1.8s infinite}
+h1{font-size:clamp(3.2rem,7.3vw,6.6rem);line-height:.96;letter-spacing:-.065em;margin:27px 0 24px;font-weight:900}
+h1 span{display:block;background:linear-gradient(100deg,#fff 10%,#80d8ff 65%,#2788ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{font-size:clamp(1rem,1.6vw,1.2rem);line-height:1.8;color:#c0d0e3;max-width:560px}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:31px}
+.stats{display:flex;gap:34px;flex-wrap:wrap;margin-top:44px}
+.stat strong{display:block;font-size:1.3rem}.stat small{color:var(--muted);font-size:.8rem}
+.hero-plane{position:absolute;z-index:2;width:min(56vw,760px);right:-2%;top:22%;filter:drop-shadow(0 28px 55px #0008);animation:planeFloat 6s ease-in-out infinite}
+.route{position:absolute;width:48%;height:60%;right:0;top:17%;opacity:.5;pointer-events:none}
+.route path{fill:none;stroke:#5bc9ff;stroke-width:1.4;stroke-dasharray:5 11;animation:dash 22s linear infinite}
+.cloud{position:absolute;bottom:-80px;left:-10%;width:120%;height:170px;background:linear-gradient(0deg,#d8f0ff12,transparent);filter:blur(15px);animation:cloudMove 14s ease-in-out infinite alternate}
+section{padding:100px clamp(22px,8vw,125px)}
+.section-kicker{color:var(--cyan);font-size:.78rem;letter-spacing:.17em;font-weight:850;text-transform:uppercase}
+h2{font-size:clamp(2rem,4vw,3.5rem);letter-spacing:-.045em;margin:12px 0 15px}
+.section-intro{max-width:650px;color:var(--muted);line-height:1.8}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:38px}
+.card{background:linear-gradient(145deg,#102742b8,#0a1a2e);border:1px solid var(--line);border-radius:22px;padding:27px;transition:transform .25s,border-color .25s;position:relative;overflow:hidden}
+.card:before{content:"";position:absolute;width:160px;height:160px;right:-90px;top:-90px;background:#1688ff25;filter:blur(28px);border-radius:50%}
+.card:hover{transform:translateY(-7px);border-color:#5dbfff70}
+.card-icon{width:49px;height:49px;border-radius:15px;background:#1688ff20;border:1px solid #1688ff42;display:grid;place-items:center;font-size:1.5rem}
+.card h3{margin:20px 0 9px;font-size:1.15rem}.card p{margin:0;color:var(--muted);line-height:1.75;font-size:.94rem}
+.fleet{background:linear-gradient(180deg,#08182c,#061326)}
+.fleet-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px}
+.aircraft{min-height:230px;display:flex;flex-direction:column;justify-content:flex-end;background:linear-gradient(0deg,#061326 0%,#061326e8 25%,transparent 75%),radial-gradient(ellipse at 50% 25%,#1a75b9 0%,#102d4a 48%,#0a1a2d 100%);border:1px solid var(--line);border-radius:22px;padding:24px;overflow:hidden;position:relative}
+.aircraft:after{content:"✈";position:absolute;right:13px;top:13px;font-size:5.5rem;color:#c8eaff1b;transform:rotate(-12deg);transition:.4s}
+.aircraft:hover:after{transform:translate(-8px,-7px) rotate(-5deg);color:#c8eaff30}
+.aircraft small{color:var(--cyan);font-weight:800;letter-spacing:.12em;text-transform:uppercase}.aircraft h3{font-size:1.35rem;margin:7px 0}.aircraft p{color:var(--muted);margin:0;font-size:.9rem}
+.discord-cta{padding-top:35px;padding-bottom:100px}
+.discord-box{position:relative;overflow:hidden;border:1px solid #56bfff55;border-radius:28px;padding:clamp(30px,6vw,65px);background:radial-gradient(ellipse at 90% 10%,#1688ff40,transparent 45%),linear-gradient(120deg,#0d2c4c,#09182d)}
+.discord-box:after{content:"✈";position:absolute;right:4%;top:-45%;font-size:clamp(12rem,30vw,23rem);color:#c1e7ff0b;transform:rotate(-12deg);pointer-events:none}
+.discord-box>*{position:relative;z-index:1}.discord-box p{max-width:600px;color:#c0d0e3;line-height:1.8}
+footer{border-top:1px solid var(--line);padding:27px clamp(22px,8vw,125px);display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;color:#879bb5;font-size:.85rem}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}.reveal.visible{opacity:1;transform:translateY(0)}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes planeFloat{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-17px) rotate(0deg)}}
+@keyframes pulse{50%{opacity:.45;box-shadow:0 0 3px #56e3b0}}
+@keyframes dash{to{stroke-dashoffset:-400}}
+@keyframes cloudMove{to{transform:translateX(3%);opacity:.6}}
+@media(max-width:850px){.navlinks{display:none;position:absolute;top:74px;left:12px;right:12px;padding:22px;border:1px solid var(--line);border-radius:18px;background:#07172af7;flex-direction:column;align-items:stretch;gap:20px}.navlinks.open{display:flex}.menu{display:block}.hero{min-height:820px;align-items:flex-start;padding-top:145px}.hero-plane{width:85vw;right:-14%;top:auto;bottom:2%;opacity:.58}.route{width:100%;top:35%}.features,.fleet-grid{grid-template-columns:1fr}.stats{gap:22px}.features .card{padding:23px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<header class="nav" id="nav">
+  <a class="brand" href="#inicio" aria-label="AeroCalifornia PTFS inicio">
+    <span class="logo"><svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M4 23.5 35 7 24 35l-5-10-15-1.5Z" fill="white"/><path d="m19 25 16-18" stroke="#9fe5ff" stroke-width="2"/></svg></span>
+    <span>AEROCALIFORNIA <span style="color:#65d9ff">PTFS</span></span>
+  </a>
+  <button class="menu" id="menu" aria-label="Abrir menú">☰</button>
+  <nav class="navlinks" id="navlinks">
+    <a href="#inicio">Inicio</a><a href="#experiencia">La experiencia</a><a href="#flota">Flota</a><a href="#comunidad">Comunidad</a>
+    <a class="btn" href="https://discord.gg/t3wfjxHz7p" target="_blank" rel="noopener">Unirse a Discord ↗</a>
+  </nav>
+</header>
+
+<main>
+<section class="hero" id="inicio">
+  <div class="gridglow"></div>
+  <svg class="route" viewBox="0 0 700 500" aria-hidden="true"><path d="M20 430 C100 60 260 80 320 240 S510 430 680 30"/></svg>
+  <div class="hero-content">
+    <div class="eyebrow"><span class="pulse"></span> Aerolínea virtual · PTFS</div>
+    <h1>Tu próximo destino.<span>Tu próxima aventura.</span></h1>
+    <p class="lead">Despega con AeroCalifornia PTFS. Forma parte de una comunidad de pilotos, participa en vuelos organizados y descubre nuevos destinos en Pilot Training Flight Simulator.</p>
+    <div class="actions">
+      <a class="btn" href="https://discord.gg/t3wfjxHz7p" target="_blank" rel="noopener">✦ Unirme a Discord</a>
+      <a class="btn secondary" href="#experiencia">Descubrir la aerolínea ↓</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><strong>✈ Vuelos</strong><small>Operaciones comunitarias</small></div>
+      <div class="stat"><strong>🌎 Destinos</strong><small>Rutas por explorar</small></div>
+      <div class="stat"><strong>🤝 Comunidad</strong><small>Un equipo de pilotos</small></div>
+    </div>
+  </div>
+  <svg class="hero-plane" viewBox="0 0 900 500" role="img" aria-label="Ilustración animada de un avión"><defs><linearGradient id="planePaint" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff"/><stop offset=".5" stop-color="#b8d9ef"/><stop offset="1" stop-color="#5c8eae"/></linearGradient></defs><g fill="url(#planePaint)" stroke="#e6f6ff" stroke-width="2" stroke-linejoin="round"><path d="M80 268 385 221 610 78 Q635 62 649 76 Q658 88 638 105 L489 207 730 171 Q752 169 762 184 Q770 200 746 208 L456 289 326 408 Q309 424 294 414 Q284 407 293 390 L351 318 91 292 Q62 287 80 268Z"/><path d="m360 226 72-117q11-16 23-9l13 7-35 112Z" fill="#d6ecfa"/><path d="m325 312-70 87q-13 16-25 7l-12-9 47-93Z" fill="#8fb9d6"/><path d="m135 271 210-33 35 15-31 19-210 17Z" fill="#1688ff" stroke="none"/><path d="m388 224 231-135-142 121Z" fill="#fff" stroke="none" opacity=".7"/></g></svg>
+  <div class="cloud"></div>
+</section>
+
+<section id="experiencia">
+  <div class="reveal"><div class="section-kicker">Más que un vuelo</div><h2>Vuela con propósito.</h2><p class="section-intro">En AeroCalifornia PTFS cada vuelo es una oportunidad para mejorar, conocer pilotos y disfrutar de la aviación virtual en equipo.</p></div>
+  <div class="features">
+    <article class="card reveal"><div class="card-icon">🛫</div><h3>Vuelos organizados</h3><p>Participa en operaciones, sigue planes de vuelo y coordina tus salidas con la comunidad.</p></article>
+    <article class="card reveal"><div class="card-icon">🎓</div><h3>Entrenamiento de pilotos</h3><p>Practica despegues, aterrizajes y maniobras para desarrollar tus habilidades en PTFS.</p></article>
+    <article class="card reveal"><div class="card-icon">🌐</div><h3>Una comunidad activa</h3><p>Conoce a otros pilotos, comparte capturas y mantente al día con anuncios y eventos.</p></article>
+  </div>
+</section>
+
+<section class="fleet" id="flota">
+  <div class="reveal"><div class="section-kicker">Nuestra operación</div><h2>Prepara tu siguiente vuelo.</h2><p class="section-intro">Descubre la flota y las operaciones de la aerolínea. Los aviones y las rutas oficiales pueden publicarse en Discord conforme se anuncien.</p></div>
+  <div class="fleet-grid">
+    <article class="aircraft reveal"><small>Operaciones</small><h3>Vuelos comerciales</h3><p>Rutas y vuelos comunitarios en PTFS.</p></article>
+    <article class="aircraft reveal"><small>Entrenamiento</small><h3>Escuela de pilotos</h3><p>Práctica y evaluación de habilidades.</p></article>
+    <article class="aircraft reveal"><small>Planificación</small><h3>Flight Planning</h3><p>Organización de horarios y destinos.</p></article>
+  </div>
+</section>
+
+<section class="discord-cta" id="comunidad">
+  <div class="discord-box reveal">
+    <div class="section-kicker">Tu tripulación te espera</div><h2>Nos vemos en la pista.</h2>
+    <p>Únete al Discord de AeroCalifornia PTFS para conocer las novedades, consultar las rutas, postularte como piloto y participar en los próximos vuelos.</p>
+    <a class="btn" href="https://discord.gg/t3wfjxHz7p" target="_blank" rel="noopener">Entrar al Discord ↗</a>
+  </div>
+</section>
+</main>
+<footer><span>© <span id="year"></span> AeroCalifornia PTFS</span><span>Conectando cielos, uniendo pilotos. ✈️</span></footer>
+<script>
+const nav=document.getElementById('nav'), menu=document.getElementById('menu'), links=document.getElementById('navlinks');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>20),{passive:true});
+menu.addEventListener('click',()=>links.classList.toggle('open'));
+links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>links.classList.remove('open')));
+document.getElementById('year').textContent=new Date().getFullYear();
+const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
